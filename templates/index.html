@@ -1,0 +1,31 @@
+<button><a href='/boasts/'>Boasts</a></button>
+<button><a href='/roasts/'>Roasts</a></button>
+<button><a href='/'>Home</a></button>
+<p></p>
+<button><a href='/sort_by_score/'>Sort by Score</a></button>
+<button><a href='/sort_by_date/'>Sort by Most Recent</a></button>
+
+<form action='gpost_submit/' method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Submit GhostPost">
+</form>
+
+{% for post in posts %}
+    <ul>
+        <li>
+            {% if post.is_boast %}
+                Boast
+            {% else %}
+                Roast
+            {% endif %}
+        </li>
+        <li>{{ post.post_text }}</li>
+        <li>Upvotes: {{ post.up_votes }}</li>
+        <li>Downvotes: {{ post.down_votes }}</li>
+        <li>Vote Total: {{ post.total_votes }}</li>
+        <li>{{ post.date_and_time }}</li>
+    </ul>
+    <button><a href='/upvote/{{ post.id }}/'>Upvote</a></button>
+    <button><a href='/downvote/{{ post.id }}/'>Downvote</a></button>
+{% endfor %}
